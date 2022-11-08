@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes"),
+        actions: const [Icon(Icons.search), Icon(Icons.settings)],
       ),
     );
   }
