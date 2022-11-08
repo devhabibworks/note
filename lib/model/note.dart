@@ -6,7 +6,7 @@ class Note {
 
   Note({this.id, this.title, this.body, this.date});
 
-  Note.fromJson(Map<String, dynamic> map) {
+  Note.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     title = map['title'];
     body = map['body'];
