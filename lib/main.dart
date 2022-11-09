@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        "home": (context) => HomeScreen(),
+        "home": (context) => const HomeScreen(),
         'add-note': (context) => const AddNoteScreen()
       },
       initialRoute: "home",

@@ -68,7 +68,7 @@ class SqlHelper {
   }
 
   Future<List<Map<String, dynamic>>> getAllNotes() async {
-    Database notedb = database;
+    Database notedb = await database;
     return notedb.rawQuery('select * from note');
   }
 }
