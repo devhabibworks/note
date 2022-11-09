@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Note note = Note.fromMap(snapshot.data![index]);
 
                     return ListTile(
-                      title: note.title,
+                      title: Text("${note.title}"),
                       subtitle: Text("${note.body}"),
                     );
                   },
