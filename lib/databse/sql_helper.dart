@@ -34,8 +34,8 @@ class SqlHelper {
     );
   }
 
-  insertNote(Note note) async {
-    Database noteDatabae = database;
+  Future<int> insertNote(Note note) async {
+    Database noteDatabae = await database;
     return await noteDatabae.insert("note", note.toMap());
   }
 

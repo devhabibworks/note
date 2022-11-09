@@ -2,10 +2,10 @@
 
 CREATE TABLE if noT EXISTS note(
   
-   ID INTEGER  PRIMARY KEY  AUTOINCREMENT , 
-   TITLE TEXT,
-   BODY TEXT NOT NULL,
-   DATE TEXT NOT NULL
+   id INTEGER  PRIMARY KEY  AUTOINCREMENT , 
+   title TEXT,
+   body TEXT NOT NULL,
+   date TEXT NOT NULL
 );
 
 --code used to insert new values
