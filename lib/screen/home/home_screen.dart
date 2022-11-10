@@ -14,11 +14,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<String> getNameFromFuture() {
     return Future.delayed(
       const Duration(seconds: 2),
-      () => "Habib",
+      () => "Nawaf",
     );
   }
 
-  SqlHelper sqlHelper = SqlHelper.instence;
+  late SqlHelper sqlHelper;
 
   Future<int> addNote() {
     return sqlHelper.insertNote(
@@ -28,6 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
           body: "Nawaf is late",
           date: DateTime.now().toString()),
     );
+  }
+
+  @override
+  void initState() {
+    sqlHelper = SqlHelper.instence;
+    super.initState();
   }
 
   @override
@@ -75,16 +81,18 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 // incase there is data
 
-                print(snapshot.data);
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    print(snapshot.data![index]);
                     Note note = Note.fromMap(snapshot.data![index]);
 
                     return ListTile(
                       title: Text("${note.title}"),
-                      subtitle: Text("${note.body}"),
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [Text("${note.body}"), Text("${note.date}")],
+                      ),
                     );
                   },
                 );
@@ -97,10 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Navigator.pushNamed(context, "add-note");
-          addNote().then((value) {
-            setState(() {});
-          });
+          Navigator.pushNamed(context, "add-note");
         },
         label: Container(
           padding: const EdgeInsets.symmetric(horizontal: 3),
