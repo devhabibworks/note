@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   InputDecorationTheme inputDecorationTheme() {
     OutlineInputBorder outlineInputBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: const BorderSide(color: Colors.blueAccent),
+      borderRadius: BorderRadius.circular(8),
+      borderSide: const BorderSide(color: Colors.purple),
       gapPadding: 10,
     );
     return InputDecorationTheme(
@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        inputDecorationTheme: inputDecorationTheme(),
+        colorSchemeSeed: Colors.purpleAccent,
+      ),
       routes: {
         "home": (context) => const HomeScreen(),
         'add-note': (context) => const AddNoteScreen()
