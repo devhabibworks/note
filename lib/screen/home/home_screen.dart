@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: const Text("Notes"),
         actions: const [
@@ -86,12 +87,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     Note note = Note.fromMap(snapshot.data![index]);
 
-                    return ListTile(
-                      title: Text("${note.title}"),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text("${note.body}"), Text("${note.date}")],
+                    return Card(
+                      margin: const EdgeInsets.all(8),
+                      child: Container(
+                        margin: const EdgeInsets.all(16).copyWith(bottom: 8),
+                        child: ListTile(
+                          title: Text("${note.title}"),
+                          subtitle: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${note.body}"),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("${note.date}"),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      sqlHelper.DeleteNote(note).then((value) {
+                                        setState(() {});
+                                      });
+                                    },
+                                    child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: const Icon(Icons.delete)),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -105,7 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pushNamed(context, "add-note");
+          Navigator.pushNamed(context, "add-note").then((value) {
+            setState(() {});
+          });
         },
         label: Container(
           padding: const EdgeInsets.symmetric(horizontal: 3),

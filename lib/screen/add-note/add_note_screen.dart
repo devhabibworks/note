@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note/backupcode.dart';
 
 import '../../model/note.dart';
 
@@ -12,6 +13,8 @@ class AddNoteScreen extends StatefulWidget {
 class _AddNoteScreenState extends State<AddNoteScreen> {
   late TextEditingController titleContoller;
   late TextEditingController bodyController;
+
+  late SqlHelper sqlHelper;
   final _formKey = GlobalKey<FormState>();
   Note note = Note();
 
@@ -19,6 +22,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   void initState() {
     titleContoller = TextEditingController(text: "");
     bodyController = TextEditingController(text: "");
+    sqlHelper = SqlHelper.instance;
+
     super.initState();
   }
 
@@ -37,8 +42,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
-                  keyboardType: const TextInputType.numberWithOptions(
-                      decimal: false, signed: false),
                   controller: titleContoller,
                   onChanged: (value) {
                     setState(() {
@@ -56,6 +59,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   child: TextFormField(
                     expands: true,
                     maxLines: null,
+                    validator: ((value) {
+                      if (value != null && value.isNotEmpty) {
+                        return null;
+                      } else {
+                        return "Body is Required";
+                      }
+                    }),
                     onChanged: (value) {
                       setState(() {
                         note.body = value;
@@ -75,7 +85,22 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   color: Colors.purple,
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      note.date = DateTime.now().toString();
+                      await sqlHelper.insertNote(note);
+                      setState(() {
+                        titleContoller.text = "";
+                        bodyController.text = "";
+                        note = Note();
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Added Succeffluy"),
+                      ));
+                      Navigator.pop(context);
+                    }
+                  },
                   child: const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(

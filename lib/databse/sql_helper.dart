@@ -57,8 +57,8 @@ class SqlHelper {
     );
   }
 
-  DeleteNote(Note note) async {
-    Database noteDatabae = database;
+  Future<int> DeleteNote(Note note) async {
+    Database noteDatabae = await database;
     return await noteDatabae.delete(
       "note",
       where: "id = ? ",
@@ -70,6 +70,6 @@ class SqlHelper {
 
   Future<List<Map<String, dynamic>>> getAllNotes() async {
     Database notedb = await database;
-    return notedb.rawQuery('select * from note');
+    return notedb.rawQuery('select * from note order by id desc ');
   }
 }
