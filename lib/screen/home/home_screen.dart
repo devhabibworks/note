@@ -25,13 +25,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: const CustomeAppBar(),
-        body: const Body(),
+        body: Body(
+        
+          update: () {
+            setState(() {});
+          },
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: CustomFloating(
           onPressed: () {
             Navigator.pushNamed(context, "add-note").then((value) {
-              print("return value");
-              setState(() {});
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) => setState(() {}));
             });
           },
         ));
