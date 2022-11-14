@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:note/backupcode.dart';
+import 'package:note/databse/sql_helper.dart';
+import 'package:note/screen/home/widgets/note_argument.dart';
 
 import '../../model/note.dart';
 
@@ -13,8 +14,9 @@ class AddNoteScreen extends StatefulWidget {
 class _AddNoteScreenState extends State<AddNoteScreen> {
   late TextEditingController titleContoller;
   late TextEditingController bodyController;
-
   late SqlHelper sqlHelper;
+  bool isFirsTime = true;
+
   final _formKey = GlobalKey<FormState>();
   Note note = Note();
 
@@ -22,16 +24,28 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   void initState() {
     titleContoller = TextEditingController(text: "");
     bodyController = TextEditingController(text: "");
-    sqlHelper = SqlHelper.instance;
+    sqlHelper = SqlHelper.instence;
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    NoteArgument argument =
+        ModalRoute.of(context)!.settings.arguments as NoteArgument;
+    if (argument.type == TYPE.UPDATE && isFirsTime) {
+      note.id = argument.note!.id;
+      note.title = argument.note!.id;
+      note.body = argument.note!.id;
+      note.date = argument.note!.id;
+      isFirsTime = false;
+      titleContoller.text = argument.note!.title;
+      bodyController.text = argument.note!.body;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Note"),
+        title: Text(argument.type == TYPE.NEW ? "Add Note" : "Update Note"),
       ),
       body: SafeArea(
         child: Padding(
@@ -88,7 +102,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       note.date = DateTime.now().toString();
-                      await sqlHelper.insertNote(note);
+                      if (argument.type == TYPE.NEW) {
+                        await sqlHelper.insertNote(note);
+                      } else {
+                        await sqlHelper.updateNote(note);
+                      }
+
                       setState(() {
                         titleContoller.text = "";
                         bodyController.text = "";
@@ -101,11 +120,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      "Save",
-                      style: TextStyle(color: Colors.white),
+                      argument.type == TYPE.NEW ? "Save" : "Update",
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),

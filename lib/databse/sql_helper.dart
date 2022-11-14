@@ -48,7 +48,7 @@ class SqlHelper {
   }
 
   updateNote(Note note) async {
-    Database noteDatabae = database;
+    Database noteDatabae = await database;
     return await noteDatabae.update(
       "note",
       note.toMap(),
@@ -71,5 +71,11 @@ class SqlHelper {
   Future<List<Map<String, dynamic>>> getAllNotes() async {
     Database notedb = await database;
     return notedb.rawQuery('select * from note order by id desc ');
+  }
+
+  Future<List<Map<String, dynamic>>> search(String value) async {
+    Database notedb = await database;
+    return notedb.rawQuery(
+        'select * from note where body like "%$value%" order by id desc ');
   }
 }

@@ -1,32 +1,53 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomeAppBar extends StatelessWidget with PreferredSizeWidget {
-  const CustomeAppBar({Key? key}) : super(key: key);
+class CustomeAppBar extends StatefulWidget with PreferredSizeWidget {
+  Function(String value)? onChange;
+  CustomeAppBar({Key? key, required this.onChange}) : super(key: key);
 
+  @override
+  State<CustomeAppBar> createState() => _CustomeAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomeAppBarState extends State<CustomeAppBar> {
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Notes"),
-      actions: const [
-        Icon(
-          CupertinoIcons.search,
-          size: 30,
-        ),
-        SizedBox(
+      actions: [
+        const SizedBox(
           width: 16,
         ),
-        Icon(
+        const Center(
+          child: Text(
+            "Note",
+            style: TextStyle(color: Colors.white, fontSize: 22),
+          ),
+        ),
+        Expanded(
+          child: TextField(
+            textAlign: TextAlign.center,
+            controller: searchController,
+            onChanged: widget.onChange,
+            decoration: const InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 20),
+                hintText: "Search",
+                hintStyle: TextStyle(color: Colors.white)),
+          ),
+        ),
+        const SizedBox(
+          width: 16,
+        ),
+        const Icon(
           Icons.settings,
           size: 30,
         ),
-        SizedBox(
+        const SizedBox(
           width: 16,
         )
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

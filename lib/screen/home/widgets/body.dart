@@ -6,13 +6,16 @@ import '../../../model/note.dart';
 
 class Body extends StatelessWidget {
   Function update;
-  Body({Key? key, required this.update}) : super(key: key);
+  Body({Key? key, required this.update, required this.futureValue})
+      : super(key: key);
 
   SqlHelper sqlHelper = SqlHelper.instence;
+  Future<List<Map<String, dynamic>>> futureValue;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: sqlHelper.getAllNotes(),
+      future: futureValue,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -49,6 +52,7 @@ class Body extends StatelessWidget {
                                     NoteArgument(type: TYPE.UPDATE, note: note))
                             .then((value) {
                           update();
+                          print("update");
                         });
                       },
                       child: Container(
