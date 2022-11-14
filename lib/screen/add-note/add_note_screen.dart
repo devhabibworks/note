@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note/databse/sql_helper.dart';
 import 'package:note/screen/home/widgets/note_argument.dart';
-
 import '../../model/note.dart';
 
 class AddNoteScreen extends StatefulWidget {
@@ -33,11 +32,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     NoteArgument argument =
         ModalRoute.of(context)!.settings.arguments as NoteArgument;
+
     if (argument.type == TYPE.UPDATE && isFirsTime) {
       note.id = argument.note!.id;
-      note.title = argument.note!.id;
-      note.body = argument.note!.id;
-      note.date = argument.note!.id;
+      note.title = argument.note!.title;
+      note.body = argument.note!.body;
+      note.date = argument.note!.date;
       isFirsTime = false;
       titleContoller.text = argument.note!.title;
       bodyController.text = argument.note!.body;
