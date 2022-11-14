@@ -8,3 +8,15 @@ String queryNote = '''
 );
 
                 ''';
+
+String queryStudent = '''
+     CREATE TABLE if noT EXISTS Student(
+  
+   id INTEGER  PRIMARY KEY  AUTOINCREMENT , 
+   name TEXT NOT NULL,
+   class TEXT NOT NULL,
+   mark  REAL ,
+   date  TEXT NOT NULL
+);
+
+                ''';

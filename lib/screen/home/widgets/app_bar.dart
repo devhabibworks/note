@@ -26,6 +26,9 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
             style: TextStyle(color: Colors.white, fontSize: 22),
           ),
         ),
+        const SizedBox(
+          width: 16,
+        ),
         Expanded(
           child: TextField(
             textAlign: TextAlign.center,

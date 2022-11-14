@@ -8,17 +8,24 @@ void main(List<String> args) {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   InputDecorationTheme inputDecorationTheme() {
     OutlineInputBorder outlineInputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: const BorderSide(color: Colors.purple),
       gapPadding: 10,
     );
+
+    OutlineInputBorder outlineInputBorder2 = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: const BorderSide(color: Colors.black),
+      gapPadding: 10,
+    );
     return InputDecorationTheme(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       enabledBorder: outlineInputBorder,
-      focusedBorder: outlineInputBorder,
+      focusedBorder: outlineInputBorder2,
       border: outlineInputBorder,
     );
   }
